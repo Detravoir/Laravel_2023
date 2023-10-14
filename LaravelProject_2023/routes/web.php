@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Album;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/hello', function () {
-    return "hello world";
+    return view('albums', [
+        'heading' => 'Latest Savant albums',
+        'albums' => Album::all()
+    ]);
 });
 
