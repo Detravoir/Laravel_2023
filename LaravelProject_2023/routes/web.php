@@ -1,7 +1,8 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Album;
+use App\Models\FavoriteTracks;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,18 @@ use App\Models\Album;
 |
 */
 
+
+// All tracks
 Route::get('/', function () {
-    return view('albums', [
-        'heading' => 'Latest Savant albums',
-        'albums' => Album::all()
+    return view('tracks', [
+        'heading' => "People's favorite tracks",
+        'tracks' => FavoriteTracks::alltracks()
     ]);
 });
 
+// Singel Track
+Route::get('/track/{id}', function($id) {
+    return view('tracks', [
+        'track' =>  FavoriteTracks::find($id)
+    ]);
+});
