@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Models\FavoriteTracks;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TrackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,17 +18,7 @@ use App\Models\FavoriteTracks;
 
 
 // All tracks
-Route::get('/', function () {
-    return view('tracks', [
-        'heading' => "People's favorite tracks",
-        'tracks' => FavoriteTracks::alltracks()
-    ]);
-});
+Route::get('/', [TrackController::class, 'index']);
 
 // Singel Track
-Route::get('/track/{id}', function($id) {
-    return view('track', [
-        'heading' => "test",
-        'track' =>  FavoriteTracks::find($id)
-    ]);
-});
+Route::get('/track/{track}', [TrackController::class, 'show']);

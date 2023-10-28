@@ -1,11 +1,17 @@
-<h1>{{$heading}}</h1>
+@extends('layout')
+@section('content')
+    
+@include('partials._hero')
+@include('partials._search')
+
+<div class="lg:grid lg:grid-cols-2 gap-4 space-y-4 md:space-y-0 mx-4">
 
 @foreach ($tracks as $track)
-    <h2>
-        <a href="/track/{{$track['id']}}">
-        {{$track['title']}}</a>
-    </h2>
-    <p>
-        {{$track['description']}}
-    </p>
+
+<x-track-card :track="$track"/>
+   
 @endforeach
+
+</div>
+
+@endsection
