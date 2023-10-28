@@ -26,7 +26,8 @@ Route::get('/', function () {
 
 // Singel Track
 Route::get('/track/{id}', function($id) {
-    return view('tracks', [
+    return view('track', [
+        'heading' => "test",
         'track' =>  FavoriteTracks::find($id)
     ]);
 });
