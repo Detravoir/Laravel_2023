@@ -9,15 +9,15 @@ class TrackController extends Controller
 {
     // Show all tracks
     public function index(){
-        return view('tracks', [
-            'tracks' => FavoriteTracks::all()
+        return view('tracks.index', [
+            'tracks' => FavoriteTracks::latest()->filter(request(['genre', 'search']))->get()
         ]);
     }
 
     // Show single track
     public function show(FavoriteTracks $track){
 
-        return view('track', [
+        return view('tracks.show', [
             'track' => $track
         ]);
     }
