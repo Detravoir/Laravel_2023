@@ -39,6 +39,9 @@ class TrackController extends Controller
             'link' => ['required', 'URL']
         ]);
 
+
+        $formFields['user_id'] = auth()->id();
+
         FavoriteTracks::create($formFields);
 
         return redirect('/')->with('messege', 'Track has been added!');
@@ -50,6 +53,12 @@ class TrackController extends Controller
     }
 
     public function update(Request $request, FavoriteTracks $track){
+
+        // Make sure logged in user is owner
+        if($track->user_id != auth()->id()){
+            abort(403, 'Unautherized Action');
+        }
+
         $formFields = $request->validate([
             'title' => 'required',
             'genres' => 'required',
@@ -66,7 +75,17 @@ class TrackController extends Controller
 
     // Delete Track
     public function destroy(FavoriteTracks $track){
+        // Make sure logged in user is owner
+        if($track->user_id != auth()->id()){
+            abort(403, 'Unautherized Action');
+        }
+
         $track->delete();
         return redirect('/')->with('message', 'Track has been deleted');
+    }
+
+    // Manage Track
+    public function manage(){
+        return view('tracks.manage', ['tracks' => auth()->user()->tracks()->get()]);
     }
 }
