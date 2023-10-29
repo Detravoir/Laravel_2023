@@ -33,6 +33,9 @@ Route::get('/tracks/{track}/edit', [TrackController::class, 'edit'])->middleware
 // Update Track
 Route::put('/tracks/{track}', [TrackController::class, 'update'])->middleware('auth');
 
+// Set Track Inactive
+Route::put('/tracks/{track}/deactivate', [TrackController::class, 'deactivate'])->middleware('auth');
+
 // Delete Track
 Route::delete('/tracks/{track}', [TrackController::class, 'destroy'])->middleware('auth');
 

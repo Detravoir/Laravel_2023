@@ -39,6 +39,14 @@
             </div>   
 
             <div class="mb-6">
+                <label for="is_active" class="inline-block text-lg mb-2">Set activaty </label>
+                <select name="is_active">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>  
+
+            <div class="mb-6">
                 <button class="bg-laravel text-white rounded py-2 px-4 hover:bg-black">Update Track</button>
 
                 <a href="/" class="text-black ml-4"> Back </a>

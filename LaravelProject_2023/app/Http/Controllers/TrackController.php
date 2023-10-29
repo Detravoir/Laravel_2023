@@ -65,6 +65,7 @@ class TrackController extends Controller
             'artist' => 'required',
             'album' => '',
             'description' => '',
+            'is_active' => '',
             'link' => ['required', 'URL']
         ]);
 
@@ -87,5 +88,21 @@ class TrackController extends Controller
     // Manage Track
     public function manage(){
         return view('tracks.manage', ['tracks' => auth()->user()->tracks()->get()]);
+    }
+
+    public function deactivate(Request $request, FavoriteTracks $track){
+        if ($track->user_id != auth()->id() && !auth()->user()->is_admin){
+            abort(403, 'Unautherized Action');
+        }
+
+        $formFields = $request->validate([
+            'is_active' => 'required',
+        ]);
+
+        $formFields['is_active'] = 0;
+
+        $track->update($formFields);
+
+        return back()->with('messege', 'Track has been updated!');
     }
 }

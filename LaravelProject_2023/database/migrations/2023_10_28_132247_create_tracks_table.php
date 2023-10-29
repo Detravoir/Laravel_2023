@@ -22,6 +22,7 @@ class CreateTracksTable extends Migration
             $table->string('album');
             $table->longText('description');
             $table->string('link');
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }
