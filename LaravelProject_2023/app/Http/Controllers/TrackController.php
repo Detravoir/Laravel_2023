@@ -55,7 +55,7 @@ class TrackController extends Controller
     public function update(Request $request, FavoriteTracks $track){
 
         // Make sure logged in user is owner
-        if($track->user_id != auth()->id()){
+        if ($track->user_id != auth()->id() && !auth()->user()->is_admin){
             abort(403, 'Unautherized Action');
         }
 
@@ -76,7 +76,7 @@ class TrackController extends Controller
     // Delete Track
     public function destroy(FavoriteTracks $track){
         // Make sure logged in user is owner
-        if($track->user_id != auth()->id()){
+        if ($track->user_id != auth()->id() && !auth()->user()->is_admin){
             abort(403, 'Unautherized Action');
         }
 
