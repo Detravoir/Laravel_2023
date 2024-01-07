@@ -47,4 +47,14 @@ class User extends Authenticatable
     public function tracks(){
         return $this->hasMany(FavoriteTracks::class, 'user_id');
     }
+
+    public function likedTracks()
+    {
+        return $this->hasMany(FavoriteTracks::class, 'user_id', 'id');
+    }
+    public function hasLikedTrack(FavoriteTracks $track)
+    {
+        return $this->likedTracks->contains($track);
+    }
+    
 }

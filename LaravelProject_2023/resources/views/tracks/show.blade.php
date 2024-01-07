@@ -21,6 +21,14 @@
                     <div class="text-lg space-y-6">
                         {{$track->description}}
                     </div>
+                    <div class="text-lg space-y-6">
+                        <form action="{{ route('tracks.like', ['track' => $track->id]) }}" method="post">
+                            @csrf
+                            <button class="flex items-center justify-center bg-black text-white rounded-xl py-1 px-3 mr-2 text-xs" type="submit">Like</button>
+                        </form>
+                    
+                        Likes: {{ is_array(json_decode($track->liked_by)) ? count(json_decode($track->liked_by)) : 0 }}
+                    </div>                    
                 </div>
             </div>
         </x-card>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\FavoriteTracks;
+use App\Models\User;
 
 class TrackController extends Controller
 {
@@ -30,6 +31,11 @@ class TrackController extends Controller
 
     // Store Track Data
     public function store(Request $request){
+        // Controleer of de gebruiker minimaal 5 likes heeft gegeven
+        $userLikesCount = auth()->user()->likes_given;
+        if ($userLikesCount < 5) {
+            return redirect('/')->with('error', 'Je moet minimaal 5 likes geven voordat je een track kunt toevoegen.');
+        }
         $formFields = $request->validate([
             'title' => 'required',
             'genres' => 'required',
@@ -104,5 +110,23 @@ class TrackController extends Controller
         $track->update($formFields);
 
         return back()->with('messege', 'Track has been updated!');
+    }
+
+    public function addLike(FavoriteTracks $track)
+    {
+        // Controleer of de gebruiker de track al heeft geliket
+        $user = auth()->user();
+
+        if (!$user->likedTracks->contains($track->id)) {
+            // Voeg like toe
+            $track->addLike();
+
+            // Verhoog likes_given van de gebruiker
+            $user->increment('likes_given');
+
+            return back()->with('success', 'Like toegevoegd!');
+        } else {
+            return back()->with('error', 'Je hebt deze track al geliket!');
+        }
     }
 }

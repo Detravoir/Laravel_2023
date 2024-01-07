@@ -60,3 +60,5 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 // Log in User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
+Route::post('/tracks/{track}/like', [TrackController::class, 'addLike'])->name('tracks.like')->middleware('auth');
+
