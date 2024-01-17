@@ -34,17 +34,25 @@ class FavoriteTracks extends Model
     }
 
     public function addLike()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
-    if ($user && !$user->hasLikedTrack($this)) {
-        $user->increment('likes_given');
-        
-        // Update liked_by-veld in de database
-        $likedBy = json_decode($this->liked_by);
-        $likedBy[] = $user->id;
-        $this->update(['liked_by' => json_encode($likedBy)]);
+        if ($user && !$user->hasLikedTrack($this)) {
+            $likedBy = json_decode($this->liked_by, true) ?? [];
+
+            // Controleer of de gebruiker al in de lijst staat
+            if (!in_array($user->id, $likedBy)) {
+                $likedBy[] = $user->id;
+                $this->update(['liked_by' => json_encode($likedBy)]);
+                
+                // JavaScript console log
+                echo '<script>console.log("addLike called for track ID ' . $this->id . '")</script>';
+                
+                // Verhoog likes_given van de gebruiker
+                $user->increment('likes_given');
+            }
+        }
     }
-}
+
     
 }

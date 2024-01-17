@@ -34,7 +34,7 @@ class TrackController extends Controller
         // Controleer of de gebruiker minimaal 5 likes heeft gegeven
         $userLikesCount = auth()->user()->likes_given;
         if ($userLikesCount < 5) {
-            return redirect('/')->with('error', 'Je moet minimaal 5 likes geven voordat je een track kunt toevoegen.');
+            return redirect('/')->with('messege', 'Je moet minimaal 5 likes geven voordat je een track kunt toevoegen.');
         }
         $formFields = $request->validate([
             'title' => 'required',
