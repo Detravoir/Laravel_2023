@@ -5,6 +5,7 @@ use App\Models\FavoriteTracks;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TrackController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,4 +62,10 @@ Route::get('/login', [UserController::class, 'login'])->name('login')->middlewar
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 Route::post('/tracks/{track}/like', [TrackController::class, 'addLike'])->name('tracks.like')->middleware('auth');
+
+Route::get('/admin/manage', [TrackController::class, 'adminManage'])->name('admin.manage');
+
+Route::post('/tracks/{track}/deactivate', [TrackController::class, 'deactivate'])->name('tracks.deactivate');
+
+Route::post('/tracks/{track}/activate', [TrackController::class, 'activate'])->name('tracks.activate');
 

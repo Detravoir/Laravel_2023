@@ -37,6 +37,14 @@
                     </span>
                 </li>
                 <li>
+                    @auth
+                        @if(auth()->user()->is_admin)
+                            <a href="/admin/manage" class="hover:text-laravel">
+                                <i class="fa-solid fa-gear"></i>Admin Manage Tracks
+                            </a>
+                        @endif
+                        <!-- ... de rest van je auth-logica ... -->
+                    @endauth
                     <a href="/tracks/manage" class="hover:text-laravel">
                         <i class="fa-solid fa-gear"></i>Manage Tracks</a>
                 </li>

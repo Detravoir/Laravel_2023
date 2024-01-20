@@ -102,19 +102,28 @@ class TrackController extends Controller
     }
 
     public function deactivate(Request $request, FavoriteTracks $track){
-        if ($track->user_id != auth()->id() && !auth()->user()->is_admin){
-            abort(403, 'Unautherized Action');
+        // Zorg ervoor dat de huidige gebruiker eigenaar is van de track of een admin is voordat je deze deactiveert
+        if ($track->user_id == auth()->id() || auth()->user()->is_admin) {
+            $this->toggleActiveStatus($track, 0);
+            return back()->with('message', 'Track has been deactivated!');
+        } else {
+            abort(403, 'Unauthorized Action');
         }
-
-        $formFields = $request->validate([
-            'is_active' => 'required',
-        ]);
-
-        $formFields['is_active'] = 0;
-
-        $track->update($formFields);
-
-        return back()->with('messege', 'Track has been updated!');
+    }
+    
+    public function activate(Request $request, FavoriteTracks $track){
+        // Zorg ervoor dat de huidige gebruiker eigenaar is van de track of een admin is voordat je deze activeert
+        if ($track->user_id == auth()->id() || auth()->user()->is_admin) {
+            $this->toggleActiveStatus($track, 1);
+            return back()->with('message', 'Track has been activated!');
+        } else {
+            abort(403, 'Unauthorized Action');
+        }
+    }
+    
+    protected function toggleActiveStatus(FavoriteTracks $track, $status){
+        // dd($status);
+        $track->update(['is_active' => $status]);
     }
 
     public function addLike(FavoriteTracks $track)
@@ -133,5 +142,9 @@ class TrackController extends Controller
         } else {
             return back()->with('error', 'Je hebt deze track al geliket!');
         }
+    }
+    public function adminManage() {
+        $tracks = FavoriteTracks::latest()->paginate(10);
+        return view('tracks.admin_manage', compact('tracks'));
     }
 }

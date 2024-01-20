@@ -27,6 +27,21 @@
                             <button class="text-red-500"><i class="fa-solid fa-trash"></i>Delete</button>
                         </form>
                     </td>
+                    <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                        <td class="px-4 py-8 border-t border-b border-gray-300 text-lg">
+                            @if($track->is_active)
+                                <form method="POST" action="/tracks/{{$track->id}}/deactivate">
+                                    @csrf
+                                    <button class="text-red-500"><i class="fa-solid fa-toggle-on"></i>Deactivate</button>
+                                </form>
+                            @else
+                                <form method="POST" action="/tracks/{{$track->id}}/activate">
+                                    @csrf
+                                    <button class="text-green-500"><i class="fa-solid fa-toggle-off"></i>Activate</button>
+                                </form>
+                            @endif
+                        </td>
+                    </td>
                 </tr>
                 @endforeach
                 @else
