@@ -10,8 +10,13 @@ class TrackController extends Controller
 {
     // Show all tracks
     public function index(){
+        $genres = FavoriteTracks::distinct('genres')->pluck('genres')->flatMap(function($genre) {
+            return explode(',', $genre);
+        })->unique()->values();
+    
         return view('tracks.index', [
-            'tracks' => FavoriteTracks::latest()->filter(request(['genre', 'search']))->paginate(6)
+            'tracks' => FavoriteTracks::latest()->filter(request(['genre', 'search']))->paginate(6),
+            'genres' => $genres,
         ]);
     }
 
